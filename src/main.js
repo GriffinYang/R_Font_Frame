@@ -10,6 +10,10 @@ app.use(dynamicBack, {
     darken: ['#050A30', '#000C66', '#0000FF', '#7EC8E3'],
     standard: ['#05445E', '#189AB4', '#75E6DA', '#D4F1F4'],
   },
+  number: 120,
+  speed: 50,
+  size: 50,
+  background: 'transparent',
 });
 
 app.mount('#app');

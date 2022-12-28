@@ -25,5 +25,21 @@ export default {
       }
       el.colors = colors;
     });
+    app.directive('speed', (el, binding, vnode) => {
+      if (options.speed != undefined) el.speed = options.speed;
+      else el.speed = 50;
+    });
+    app.directive('practicalNumber', (el, binding, vnode) => {
+      if (options.number != undefined) el.practicalNumber = options.number;
+      else el.practicalNumber = 120;
+    });
+    app.directive('size', (el, binding, vnode) => {
+      if (options.size != undefined) el.size = options.size;
+      else el.size = 50;
+    });
+    app.directive('background', (el, binding, vnode) => {
+      if (options.background != undefined) el.background = options.background;
+      else el.background = '#000';
+    });
   },
 };

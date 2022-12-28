@@ -6,6 +6,10 @@
 export default {
   mounted() {
     this.colors = document.querySelector('canvas').colors;
+    this.speed = document.querySelector('canvas').speed;
+    this.size = document.querySelector('canvas').size;
+    this.background = document.querySelector('canvas').background;
+    this.practicalNumber = document.querySelector('canvas').practicalNumber;
     this.init();
     addEventListener('resize', this.clear);
   },
@@ -13,16 +17,21 @@ export default {
     return {
       w: undefined,
       h: undefined,
+      background: undefined,
       ctx: undefined,
       animation: undefined,
+      practicalNumber: 50,
+      speed: 25,
       practicals: [],
       colors: [],
+      size: undefined,
       practical: class Practical {
-        constructor(colors, randomNum, w, h, ctx) {
-          this.size = randomNum(40) + 1;
+        constructor(colors, randomNum, w, h, ctx, size) {
+          this.size = randomNum(size) + 1;
           this.color = colors[randomNum(colors.length)];
           this.x = randomNum(w);
           this.y = randomNum(h);
+          this.random = randomNum;
           this.w = w;
           this.h = h;
           this.offsetX =
@@ -52,8 +61,10 @@ export default {
           } else this.draw();
         }
         reverse() {
-          this.offsetX = -this.offsetX;
-          this.offsetY = -this.offsetY;
+          this.offsetX =
+            (this.random(6) + 1) * -(this.offsetX / Math.abs(this.offsetX));
+          this.offsetY =
+            (this.random(9) + 1) * -(this.offsetY / Math.abs(this.offsetY));
         }
       },
     };
@@ -71,7 +82,7 @@ export default {
       canvas.width = canvas.parentElement.clientWidth;
       canvas.height = canvas.parentElement.clientHeight;
       const ctx = canvas.getContext('2d');
-      canvas.style.background = '#000';
+      canvas.style.background = this.background;
       this.initializeCanvas(ctx, canvas.width, canvas.height);
     },
     randomNum(n) {
@@ -79,13 +90,14 @@ export default {
     },
     initializeCanvas(ctx, w, h) {
       ctx.clearRect(0, 0, w, h);
-      for (let index = 0; index < 120; index++) {
+      for (let index = 0; index < this.practicalNumber; index++) {
         const current = new this.practical(
           this.colors,
           this.randomNum,
           w,
           h,
-          ctx
+          ctx,
+          this.size
         );
         this.practicals.push(current);
         this.practicals[index].draw();
@@ -101,7 +113,7 @@ export default {
     },
     getAnimated(ctx, w, h) {
       (this.ctx = ctx), (this.w = w), (this.h = h);
-      this.animation = setInterval(this.animate, 25);
+      this.animation = setInterval(this.animate, this.speed);
     },
   },
 };
